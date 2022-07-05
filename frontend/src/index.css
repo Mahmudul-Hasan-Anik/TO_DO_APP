@@ -2,6 +2,9 @@
 
 body{
   font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  outline: 0;
 }
 .Auth_main{
   margin-top: 70px;
@@ -38,4 +41,16 @@ body{
 .Auth_input a{
   text-decoration: none;
   color: #1565C0;
+}
+
+/* ====== SIDE MENU ====== */
+.sidemenu_main{
+  width: 200px;
+  height: 721px;
+  padding: 0px !important;
+  background-color: white;
+  box-shadow: 1px 0 10px -2px rgb(79, 80, 80);
+}
+.sidemenu_main h2{
+  margin: 0px;
 }
