@@ -44,13 +44,110 @@ body{
 }
 
 /* ====== SIDE MENU ====== */
+.sidebar{
+  display: flex;
+  position: relative;
+}
 .sidemenu_main{
   width: 200px;
-  height: 721px;
+  height: 700px;
   padding: 0px !important;
   background-color: white;
   box-shadow: 1px 0 10px -2px rgb(79, 80, 80);
+  padding-top: 20px !important;
+  position: fixed;
 }
 .sidemenu_main h2{
   margin: 0px;
+}
+.sidemenu_user{
+  width: 180px;
+  background-color: beige;
+  padding-bottom: 10px;
+  margin: 0 auto;
+  text-align: center;
+  color: black;
+  margin-bottom: 50px;
+}
+.sidemenu_list ul{
+  padding-left: 0px !important;
+}
+.sidemenu_list ul li{
+  list-style: none;
+  padding: 10px 0px;
+  cursor: pointer;
+  width: 100% !important;
+}
+.sidemenu_list a{
+  text-decoration: none;
+  color: black;
+  padding: 0px 10px;
+}
+.sidemenu_list ul li a > i{
+  padding: 0px 20px;
+}
+.sidemenu_list ul li:hover{
+  background-color: beige;
+}
+.sidemenu_in_out{
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 50px;
+  display: flex;
+}
+
+.sidemenu_in_out span{
+  display: block;
+  width: 180px;
+  height: 60px;
+  text-align: center;
+  margin: 0 5px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.sidemenu_in_out i{
+  color: black;
+  font-size: 15px;
+  display: block;
+  margin: 7px 10px;
+}
+.activeMenu{
+  background-color: #556F5D !important;
+}
+.activeMenu a{
+  color: white !important;
+  padding: 0px 10px;
+}
+
+/* ======= Main Content ========= */
+.main_content{
+  width: 84%;
+  background-color: white;
+  margin-left: 215px;
+  height: 100vh;
+}
+/* ======= Today ======== */
+.today_main{
+  margin: 0 auto !important;
+}
+.today_main button{
+  width: 100px;
+  height: 53px;
+}
+.today_show_card{
+  display: flex;
+  flex-direction:column;
+  width: 100%;
+}
+.today_Model_desgin{
+  position: 'absolute';
+  top: '50%';
+  left: '50%';
+  transform: 'translate(-50%, -50%)';
+  width: 400;
+  background-color: 'black';
+  border: '2px solid #000';
+  box-shadow: 24;
+  padding: 4,
 }

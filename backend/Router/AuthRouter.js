@@ -13,7 +13,7 @@ AuthRoute.post('/registration', async(req,res)=>{
     })
 
     await newAuth.save().then(()=>{
-        res.status(200).send(newAuth)
+        res.status(200).json({msg: 'Registration Successful'})
     }).catch((e)=>{
         res.status(400).json({msg:'Registration Failed'})
     })
