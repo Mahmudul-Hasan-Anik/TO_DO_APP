@@ -3,7 +3,8 @@ import Layout from '../../Components/Layout'
 import axios from 'axios'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit';
-import { FormControl, Select,TextField ,Modal, Box, InputLabel,Button, CardContent, Chip, Card,IconButton,Typography, Checkbox} from '@mui/material';
+import { toast } from 'react-toastify';
+import { FormControl, Select,TextField ,Modal, Box, InputLabel,Button,Tooltip, CardContent, Chip, Card,IconButton,Typography, Checkbox} from '@mui/material';
 
 
 // MODEL CSS STYLE
@@ -22,7 +23,7 @@ const Today = () => {
     const [task, setTask] = useState('')
     const [priority, setPriority] = useState('')
     const [taskID, setTaskID] = useState('')
-
+    const [check, setCheck] = useState(false)
     const [taskValue, setTaskValue] = useState([])
 
     const [open, setOpen] = useState(false);
@@ -51,8 +52,6 @@ const Today = () => {
         setTask(data.task)
         setPriority(data.priority)
         setTaskID(data._id)
-
-        console.log(data)
     }
 
     const handleEditSubmit = ()=>{
@@ -66,6 +65,20 @@ const Today = () => {
       })
     }
 
+    const handleChack = (item)=>{
+      if(check !== true){
+          axios.post(`http://localhost:5000/task/api/today/complete/${item._id}`,{
+            headers:{
+              'content-type': 'text/json'
+            },
+            task : item.task,
+            priority: item.priority,
+            time: Date()
+          })
+        // toast.success('Task Complete')
+      }
+    }
+
     useEffect(()=>{
       async function fatchData(){
         const {data} = await axios.get('http://localhost:5000/task/api/today')
@@ -73,6 +86,7 @@ const Today = () => {
       }
       fatchData()
     },[])
+
 
   return (
     <Layout title='To-do'>
@@ -100,6 +114,7 @@ const Today = () => {
           </Box>
         </div>
 
+{/* SHOW DATA */}
       <h2 style={{marginLeft:'10px'}}>Your Task</h2>
       {taskValue.map((items)=>(
 
@@ -107,7 +122,7 @@ const Today = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', width: 100 }}>
         <CardContent >
           <Typography  variant="p">
-            <Checkbox />
+            <Tooltip title="Complete"><Checkbox onClick={()=>handleChack(items)} onChange={(e)=>setCheck(e.target.checked)}/></Tooltip>
           </Typography>
         </CardContent>
       </Box>
@@ -129,8 +144,8 @@ const Today = () => {
 
       <Box sx={{ display: 'flex', flexDirection: 'column',width: 150 }}>
         <CardContent>
-            <IconButton onClick={()=>handleEdit(items._id)}><EditIcon/></IconButton>
-            <IconButton onClick={()=>handleDelete(items._id)}><DeleteIcon/></IconButton>
+            <Tooltip title="Edit"><IconButton onClick={()=>handleEdit(items._id)}><EditIcon/></IconButton></Tooltip>
+            <Tooltip title="Clear"><IconButton onClick={()=>handleDelete(items._id)}><DeleteIcon/></IconButton></Tooltip>
         </CardContent>
       </Box>
     

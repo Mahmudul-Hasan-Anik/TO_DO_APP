@@ -1,4 +1,5 @@
 const express = require('express')
+const Complete = require('../Model/Complete')
 const TodayTask = require('../Model/TodayModel')
 
 const TaskRouter = express.Router()
@@ -64,6 +65,30 @@ TaskRouter.put('/today/edit', (req,res)=>{
             res.status(400).json(err)
         }
     })
+})
+
+// TASK DELETE AND SENT COMPLETE PAGE DATABASE
+TaskRouter.post('/today/complete/:id', async(req,res)=>{
+    const newComplete = new Complete({
+        task: req.body.task,
+        priority: req.body.priority, 
+        time: req.body.time
+    })
+
+    await newComplete.save().then(()=>{
+        res.status(200).json({msg: 'Data set in Complete Page Database'})
+    }).catch(()=>{
+        res.status(400).json({msg: 'Data not sent'})
+    })
+
+    TodayTask.findByIdAndDelete({_id: req.params.id}, (err,docs)=>{
+        if(docs){
+            res.send(docs)
+        }else{
+            res.send(err)
+        }
+    })
+
 
     console.log(req.body)
 })
