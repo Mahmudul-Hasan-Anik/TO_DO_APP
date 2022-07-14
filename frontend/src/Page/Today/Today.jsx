@@ -5,6 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit';
 import { toast } from 'react-toastify';
 import { FormControl, Select,TextField ,Modal, Box, InputLabel,Button,Tooltip, CardContent, Chip, Card,IconButton,Typography, Checkbox} from '@mui/material';
+import { useContext } from 'react';
+import { Store } from '../../Store';
 
 
 // MODEL CSS STYLE
@@ -26,6 +28,9 @@ const Today = () => {
     const [check, setCheck] = useState(false)
     const [taskValue, setTaskValue] = useState([])
 
+    const {state} = useContext(Store)
+    const {user} = state
+
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
 
@@ -36,6 +41,7 @@ const Today = () => {
       await axios.post('http://localhost:5000/task/api/today', {
         task : task,
         priority: priority,
+        user: user
       }).then(()=>{
          setTask('')
          setPriority('')
@@ -59,6 +65,7 @@ const Today = () => {
       axios.put('http://localhost:5000/task/api/today/edit',{
         id: taskID,
         task : task,
+        user: user,
         priority: priority,
       }).then(()=>{
         setOpen(false)
@@ -68,11 +75,9 @@ const Today = () => {
     const handleChack = (item)=>{
       if(check !== true){
           axios.post(`http://localhost:5000/task/api/today/complete/${item._id}`,{
-            headers:{
-              'content-type': 'text/json'
-            },
             task : item.task,
             priority: item.priority,
+            user: user,
             time: Date()
           })
         // toast.success('Task Complete')
@@ -81,11 +86,11 @@ const Today = () => {
 
     useEffect(()=>{
       async function fatchData(){
-        const {data} = await axios.get('http://localhost:5000/task/api/today')
+        const {data} = await axios.get(`http://localhost:5000/task/api/today/user/${user._id}`)
         setTaskValue(data)
       }
       fatchData()
-    },[])
+    },[taskValue])
 
 
   return (
@@ -119,14 +124,14 @@ const Today = () => {
       {taskValue.map((items)=>(
 
       <Card sx={{ display: 'flex', width: 1000, m:2 }} key={items._id}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: 100 }}>
+      <Box sx={{ width: 100 }} className='card_design'>
         <CardContent >
           <Typography  variant="p">
             <Tooltip title="Complete"><Checkbox onClick={()=>handleChack(items)} onChange={(e)=>setCheck(e.target.checked)}/></Tooltip>
           </Typography>
         </CardContent>
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: 400 }}>
+      <Box sx={{ width: 400 }} className='card_design'>
         <CardContent >
           <Typography  variant="p">
            {items.task}
@@ -134,7 +139,7 @@ const Today = () => {
         </CardContent>
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', width: 350 }}>
+      <Box sx={{ width: 350 }} className='card_design'>
         <CardContent >
           <Typography  variant="p">
             <Chip label={items.priority} variant="outlined"></Chip>
@@ -142,7 +147,7 @@ const Today = () => {
         </CardContent>
       </Box>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column',width: 150 }}>
+      <Box sx={{ width: 150 }} className='card_design'>
         <CardContent>
             <Tooltip title="Edit"><IconButton onClick={()=>handleEdit(items._id)}><EditIcon/></IconButton></Tooltip>
             <Tooltip title="Clear"><IconButton onClick={()=>handleDelete(items._id)}><DeleteIcon/></IconButton></Tooltip>

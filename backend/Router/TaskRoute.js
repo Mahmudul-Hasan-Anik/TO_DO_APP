@@ -9,6 +9,7 @@ TaskRouter.post('/today', async(req,res)=>{
     const newTask = new TodayTask({
         task: req.body.task,
         priority: req.body.priority,
+        user: req.body.user
     })
 
     await newTask.save().then(()=>{
@@ -19,14 +20,16 @@ TaskRouter.post('/today', async(req,res)=>{
 })
 
 // TASK DATA SHOW 
-TaskRouter.get('/today', (req,res)=>{
-    TodayTask.find({}, (err,docs)=>{
+TaskRouter.get('/today/user/:id', (req,res)=>{
+    TodayTask.find({user: req.params.id}, (err,docs)=>{
         if(docs){
             res.send(docs)
+            console.log(docs)
         }else{
             res.send(err)
         }
     })
+
 })
 
 //INDIVISUL TASK DATA SHOW
@@ -68,18 +71,15 @@ TaskRouter.put('/today/edit', (req,res)=>{
 })
 
 // TASK DELETE AND SENT COMPLETE PAGE DATABASE
-TaskRouter.post('/today/complete/:id', async(req,res)=>{
+TaskRouter.post('/today/complete/:id', (req,res)=>{
     const newComplete = new Complete({
         task: req.body.task,
         priority: req.body.priority, 
+        user: req.body.user,
         time: req.body.time
     })
 
-    await newComplete.save().then(()=>{
-        res.status(200).json({msg: 'Data set in Complete Page Database'})
-    }).catch(()=>{
-        res.status(400).json({msg: 'Data not sent'})
-    })
+    newComplete.save()
 
     TodayTask.findByIdAndDelete({_id: req.params.id}, (err,docs)=>{
         if(docs){
@@ -88,9 +88,6 @@ TaskRouter.post('/today/complete/:id', async(req,res)=>{
             res.send(err)
         }
     })
-
-
-    console.log(req.body)
 })
 
 module.exports = TaskRouter

@@ -15,7 +15,7 @@ mongoose.connect(process.env.DATABASE_URL, ()=>{
     console.log('Database Connected')
 })
 
-app.use(morgan('tiny'))
+// app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));

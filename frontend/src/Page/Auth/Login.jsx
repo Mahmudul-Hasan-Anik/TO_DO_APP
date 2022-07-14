@@ -1,12 +1,20 @@
-import React,{useState} from 'react'
+import React,{useState,useContext, useEffect} from 'react'
 import { Box } from '@mui/system';
 import { Button, Container, Grid, TextField } from '@mui/material';
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useLocation, useNavigate, } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { Store } from '../../Store';
 
 const Login = () => {
     const navigate = useNavigate()
+    const {search} = useLocation()
+    const rediractURL = new URLSearchParams(search).get('rediract')
+    const rediract = rediractURL ? rediractURL : '/'
+
+    const {state,dispatch} = useContext(Store)
+    const {user} = state
+
     const [values, setValues] = useState({
       email: '',
       password: '',
@@ -32,8 +40,13 @@ const Login = () => {
           await axios.post('http://localhost:5000/auth/api/login' , {
             email: email,
             password: password
-          }).then(()=>{
+          }).then((data)=>{
             navigate('/')
+            dispatch({
+              type: 'USER_LOGIN',
+              payload: data.data
+            })
+            localStorage.setItem('user', JSON.stringify(data.data))
             
             setValues({
               email: '',
@@ -45,6 +58,12 @@ const Login = () => {
         }
       }
     }
+
+    useEffect(()=>{
+        if(user){
+          navigate(rediract)
+        }
+    },[])
     
   return (
    

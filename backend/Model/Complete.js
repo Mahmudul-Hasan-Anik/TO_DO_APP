@@ -12,10 +12,10 @@ const CompleteSchema = new mongoose.Schema({
     time: {
         type: Date
     },
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User'
-    // }
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 },
 {
     timestamps: true

@@ -51,9 +51,10 @@ body{
 .sidemenu_main{
   width: 200px;
   height: 700px;
+  margin-top: 65px;
   padding: 0px !important;
   background-color: white;
-  box-shadow: 1px 0 10px -2px rgb(79, 80, 80);
+  box-shadow: 1px 0 10px -5px rgb(79, 80, 80);
   padding-top: 20px !important;
   position: fixed;
 }
@@ -63,7 +64,7 @@ body{
 .sidemenu_user{
   width: 180px;
   background-color: beige;
-  padding-bottom: 10px;
+  padding: 1px 1px;
   margin: 0 auto;
   text-align: center;
   color: black;
@@ -92,7 +93,7 @@ body{
 .sidemenu_in_out{
   position: absolute;
   bottom: 0;
-  margin-bottom: 50px;
+  margin-bottom: 120px;
   display: flex;
 }
 
@@ -122,10 +123,11 @@ body{
 
 /* ======= Main Content ========= */
 .main_content{
-  width: 84%;
+  width: 83%;
   background-color: white;
-  margin-left: 215px;
-  height: 100vh;
+  margin-left: 219px;
+  height: 600px;
+  margin-top: 80px;
 }
 /* ======= Today ======== */
 .today_main{
@@ -150,4 +152,15 @@ body{
   border: '2px solid #000';
   box-shadow: 24;
   padding: 4,
+}
+
+.card_design{
+  display: 'flex';
+  flex-direction: 'column'; 
+}
+
+/* ========== HEADERS =========== */
+a{
+  text-decoration: none !important;
+  color: black !important;
 }

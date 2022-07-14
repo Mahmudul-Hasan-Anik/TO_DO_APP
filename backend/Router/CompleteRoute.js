@@ -3,8 +3,18 @@ const Complete = require('../Model/Complete')
 
 const CompleteRouter = express.Router()
 
-CompleteRouter.get('/complete', (req,res)=>{
-    Complete.find({}, (err,docs)=>{
+CompleteRouter.get('/complete/:id', (req,res)=>{
+    Complete.find({user: req.params.id}, (err,docs)=>{
+        if(docs){
+            res.send(docs)
+        }else{
+            res.send(err)
+        }
+    })
+})
+
+CompleteRouter.post('/complete/delete/:id', (req, res)=>{
+    Complete.findByIdAndDelete({_id: req.params.id}, (err,docs)=>{
         if(docs){
             res.send(docs)
         }else{
